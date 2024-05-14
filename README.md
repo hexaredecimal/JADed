@@ -25,3 +25,8 @@ written using the java swing API.
 ## Contributing
 >> All contributions are welcome, given that they solve a problem or add a new feature to the project.
 
+## Demo
+https://github.com/hexaredecimal/JADed/assets/51314855/5f5e650c-ea9d-43a7-aff1-f165c6642b7a
+
+
+
