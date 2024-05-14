@@ -16,7 +16,7 @@ public class Editor implements Serializable, MouseListener, MouseMotionListener,
 	public Point viewportOffset = new Point(0, 0);
 	public static String message = "";
 	public static double messageTime = 0;
-	public static boolean saveDebug = true;
+	public static boolean saveDebug = false;
 	public Point mouse = new Point(0, 0);
 	public Menu menu = null;
 	public ErrorMenu errorMenu = null;
@@ -48,7 +48,7 @@ public class Editor implements Serializable, MouseListener, MouseMotionListener,
 			type.isTextEditor = false;
 			type.name = "Welcome, Info";
 			infoNode = new Node(64, 64, 512, 32 * 3, type);
-			infoNode.meta = " Welcome to Graphene Code editor\n press H for help infomation";
+			infoNode.meta = " Welcome to JADed Code editor\n press H for help infomation";
 			topNodes.add(infoNode);
 			lastNodeToDrag = infoNode;
 		} else {
@@ -270,7 +270,7 @@ public class Editor implements Serializable, MouseListener, MouseMotionListener,
 							deletedNode = null;
 						}
 						break;
-					case KeyEvent.VK_Q:
+					case KeyEvent.VK_D:
 						if (lastNodeToDrag == this.infoNode) {
 							String name = this.infoNode.type.name;
 							topNodes.remove(this.infoNode);
@@ -291,9 +291,10 @@ public class Editor implements Serializable, MouseListener, MouseMotionListener,
 							NodeType type = language.defaultNode();
 							infoNode = new Node(64 * 2, 64 * 3, 512, 32 * 3, type);
 						}
+						infoNode.bound = new Rectangle(512, 150);
 						infoNode.type.name = "About info";
 						infoNode.type.syntaxColor = Color.ORANGE;
-						infoNode.meta = " Graphene Ide | A Vusiual editor\n" + " For SMLL and JAVA \n-----------\nCreated by Gama Sibusiso";
+						infoNode.meta = " JADed Ide | A Vusiual editor\n" + " For SMLL and JAVA \n-----------\nCreated by Gama Sibusiso";
 						lastNodeToDrag = infoNode;
 						if (!topNodes.contains(infoNode)) {
 							topNodes.add(infoNode);
