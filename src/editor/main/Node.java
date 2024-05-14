@@ -54,7 +54,7 @@ public class Node implements Serializable {
         if (Editorr.lang.getComment() == null) {
             return type.parse(meta.trim(), outputNodes);
         } else {
-            return (Editor.saveDebug ? Editorr.lang.getComment() + "@$" + Editor.getNodes().indexOf(this) + "\n" : "") + type.parse(meta.trim(), outputNodes);
+            return (Editor.saveDebug ? Editorr.lang.getComment() + "@$" + Editor.getNodes().indexOf(this) + "\n" : "\n") + type.parse(meta.trim(), outputNodes);
         }
     }
 
