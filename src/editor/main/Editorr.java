@@ -7,16 +7,16 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 
-/**
- * Created by brandon on 8/2/16.
- */
+
 public class Editorr {
 
     public static Editor.Language[] languages = {
             new LanguageJava(),
     };
 
-    public static String file;
+    public static String fileName;
+		public static String fileExt;
+		public static String file;
     public static Editor.Language lang;
 
     public static String code = "";
@@ -28,12 +28,16 @@ public class Editorr {
             System.out.println("I need a file!");
             System.out.println("Example:\n\teditor file.py");
             lang = languages[0];
-            file = "test." + lang.getExtension();
+						fileName = "test"; 
+						fileExt = lang.getExtension(); 
+            file = fileName.concat(".").concat(fileExt); 
         }
         String extension = "";
         int x = file.lastIndexOf('.');
         if (x > 0) {
+						fileName = file.substring(0, x); 
             extension = file.substring(x + 1);
+						fileExt = extension; 
         }
         lang = languages[0];
         for (int i = 0; i < languages.length; i++) {
