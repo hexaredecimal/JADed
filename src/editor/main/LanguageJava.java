@@ -13,7 +13,6 @@ public class LanguageJava implements Serializable, Editor.Language {
 
 	public NodeType[] nodeTypes = new NodeType[]{
 		new NodeType() {
-
 			{
 				name = "Code";
 				outputNum = 0;
@@ -28,14 +27,78 @@ public class LanguageJava implements Serializable, Editor.Language {
 			}
 		},
 		new NodeType() {
-
 			{
-				name = "Access specifier";
-				outputNum = 1;
+				name = "Expression";
+				outputNum = 0;
 				isTextEditor = true;
 				syntaxColor = Color.CYAN;
 				width = 512 - 128;
-				height = 128 ;
+				height = 128 - 32;
+			}
+
+			public String parse(String meta, Node[] outputNodes) {
+				return meta;
+			}
+		},
+		new NodeType() {
+			{
+				name = "import";
+				outputNum = 0;
+				isTextEditor = false;
+				syntaxColor = Color.CYAN;
+				width = 32 * 3;
+				height = 30 * 3;
+			}
+
+			public String parse(String meta, Node[] outputNodes) {
+				String data = "import ".concat(meta).concat(";\n");
+				return data;
+			}
+		},
+		new NodeType() {
+			{
+				name = "package";
+				outputNum = 1;
+				isTextEditor = false;
+				syntaxColor = Color.CYAN;
+				width = 32 * 3;
+				height = 30 * 3;
+			}
+
+			public String parse(String meta, Node[] outputNodes) {
+				String data = "//package ".concat(meta).concat("\n");
+				if (outputNodes[0] != null) {
+					data += outputNodes[0].parse() + ' ';
+				}
+				return data;
+			}
+		},
+		new NodeType() {
+			{
+				name = "static";
+				outputNum = 1;
+				isTextEditor = false;
+				syntaxColor = Color.CYAN;
+				width = 32 * 3;
+				height = 30;
+			}
+
+			public String parse(String meta, Node[] outputNodes) {
+				String data = "static";
+				if (outputNodes[0] != null) {
+					data += outputNodes[0].parse() + ' ';
+				}
+				return data;
+			}
+		},
+		new NodeType() {
+			{
+				name = "public";
+				outputNum = 1;
+				isTextEditor = false;
+				syntaxColor = Color.CYAN;
+				width = 32 * 3;
+				height = 30;
 			}
 
 			public String parse(String meta, Node[] outputNodes) {
@@ -47,25 +110,60 @@ public class LanguageJava implements Serializable, Editor.Language {
 			}
 		},
 		new NodeType() {
-
 			{
-				name = "Scope";
+				name = "private";
 				outputNum = 1;
-				isTextEditor = true;
-				syntaxColor = Color.YELLOW;
-				width = 512 - 128;
+				isTextEditor = false;
+				syntaxColor = Color.CYAN;
+				width = 32 * 3;
+				height = 30;
 			}
 
 			public String parse(String meta, Node[] outputNodes) {
-				String data = "";
+				String data = "private";
 				if (outputNodes[0] != null) {
-					data += block(outputNodes[0].parse()) + "\n";
+					data += outputNodes[0].parse() + ' ';
 				}
 				return data;
 			}
 		},
 		new NodeType() {
+			{
+				name = "protected";
+				outputNum = 1;
+				isTextEditor = false;
+				syntaxColor = Color.CYAN;
+				width = 32 * 3;
+				height = 30;
+			}
 
+			public String parse(String meta, Node[] outputNodes) {
+				String data = "protected";
+				if (outputNodes[0] != null) {
+					data += outputNodes[0].parse() + ' ';
+				}
+				return data;
+			}
+		},
+		new NodeType() {
+			{
+				name = "Scope";
+				outputNum = 1;
+				isTextEditor = true;
+				syntaxColor = Color.YELLOW;
+				width = 32 * 3;
+				height = 30;
+			}
+
+			public String parse(String meta, Node[] outputNodes) {
+				String data = block("");
+				if (outputNodes[0] != null) {
+					data = block(outputNodes[0].parse()); 
+				}
+				return data;
+			}
+		},
+		new NodeType() {
 			{
 				name = "Method";
 				outputNum = 1;
@@ -77,31 +175,29 @@ public class LanguageJava implements Serializable, Editor.Language {
 			public String parse(String meta, Node[] outputNodes) {
 				String data = "";
 				if (outputNodes[0] != null) {
-					data += meta.concat(" ").concat(block(outputNodes[0].parse()) + "\n");
+					data += meta.concat(" ").concat(outputNodes[0].parse() + "\n");
 				}
 				return data;
 			}
 		},
 		new NodeType() {
-
 			{
 				name = "Interface";
 				outputNum = 1;
 				isTextEditor = true;
 				syntaxColor = Color.ORANGE;
-				width = 512 - 128;
+				width = 128;
 			}
 
 			public String parse(String meta, Node[] outputNodes) {
 				String data = "";
 				if (outputNodes[0] != null) {
-					data += "public interface " + meta + "\n" + block(outputNodes[0].parse()) + "\n";
+					data += "interface " + meta + " " + outputNodes[0].parse() + "\n";
 				}
 				return data;
 			}
 		},
 		new NodeType() {
-
 			{
 				name = "Variable";
 				outputNum = 1;
@@ -119,43 +215,23 @@ public class LanguageJava implements Serializable, Editor.Language {
 			}
 		},
 		new NodeType() {
-
 			{
 				name = "Class";
 				outputNum = 1;
 				isTextEditor = true;
 				syntaxColor = Color.BLACK;
-				width = 512 - 128;
+				width = 128;
 			}
 
 			public String parse(String meta, Node[] outputNodes) {
-				String data = "";
+				String data = "class " + meta ;
 				if (outputNodes[0] != null) {
-					data += "public class " + meta + "\n" + block(outputNodes[0].parse()) + "\n";
+					data += " " + outputNodes[0].parse();
 				}
 				return data;
 			}
 		},
 		new NodeType() {
-
-			{
-				name = "Static class";
-				outputNum = 1;
-				isTextEditor = true;
-				syntaxColor = Color.BLACK;
-				width = 512 - 128;
-			}
-
-			public String parse(String meta, Node[] outputNodes) {
-				String data = "";
-				if (outputNodes[0] != null) {
-					data += "public static class " + meta + "\n" + block(outputNodes[0].parse()) + "\n";
-				}
-				return data;
-			}
-		},
-		new NodeType() {
-
 			{
 				name = "Split 2";
 				outputNum = 2;
@@ -176,7 +252,6 @@ public class LanguageJava implements Serializable, Editor.Language {
 			}
 		},
 		new NodeType() {
-
 			{
 				name = "Split 4";
 				outputNum = 4;
@@ -197,7 +272,6 @@ public class LanguageJava implements Serializable, Editor.Language {
 			}
 		},
 		new NodeType() {
-
 			{
 				name = "Split 8";
 				outputNum = 8;
@@ -238,7 +312,7 @@ public class LanguageJava implements Serializable, Editor.Language {
 	}
 
 	public NodeType defaultNode() {
-		return nodeTemplate; 
+		return nodeTemplate;
 	}
 
 	public NodeType[] getNodeTypes() {
