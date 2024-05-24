@@ -32,8 +32,8 @@ public class Editorr {
 			file = args[0];
 		} else {
 			lang = languages[0];
-			System.out.println("No file provided, defaulting to: ".concat(fileName));
 			fileName = "project";
+			System.out.println("No file provided, defaulting to: ".concat(fileName));
 			fileExt = lang.getExtension();
 			file = fileName.concat(".").concat(fileExt);
 		}
