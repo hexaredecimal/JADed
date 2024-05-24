@@ -9,7 +9,6 @@ import java.awt.*;
 import java.awt.image.*;
 
 public class Editor implements Serializable, MouseListener, MouseMotionListener, KeyListener, MouseWheelListener {
-
 	public Canvas canvas;
 	public Language language;
 	public static LinkedList<Node> topNodes = new LinkedList<Node>();
