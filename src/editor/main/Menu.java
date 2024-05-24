@@ -3,9 +3,6 @@ package editor.main;
 import java.awt.*;
 import java.io.Serializable;
 
-/**
- * Created by brandon on 8/1/16.
- */
 public abstract class Menu implements Serializable {
 
     public String[] options;
