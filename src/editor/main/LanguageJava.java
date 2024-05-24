@@ -42,6 +42,21 @@ public class LanguageJava implements Serializable, Editor.Language {
 		},
 		new NodeType() {
 			{
+				name = "static import";
+				outputNum = 0;
+				isTextEditor = false;
+				syntaxColor = Color.CYAN;
+				width = 32 * 4;
+				height = 30 * 3;
+			}
+
+			public String parse(String meta, Node[] outputNodes) {
+				String data = "import static ".concat(meta).concat(";\n");
+				return data;
+			}
+		},
+		new NodeType() {
+			{
 				name = "import";
 				outputNum = 0;
 				isTextEditor = false;
@@ -66,7 +81,7 @@ public class LanguageJava implements Serializable, Editor.Language {
 			}
 
 			public String parse(String meta, Node[] outputNodes) {
-				String data = "//package ".concat(meta).concat("\n");
+				String data = "package ".concat(meta).concat("\n");
 				if (outputNodes[0] != null) {
 					data += outputNodes[0].parse() + ' ';
 				}
@@ -127,6 +142,45 @@ public class LanguageJava implements Serializable, Editor.Language {
 				return data;
 			}
 		},
+
+		new NodeType() {
+			{
+				name = "extends";
+				outputNum = 1;
+				isTextEditor = false;
+				syntaxColor = Color.CYAN;
+				width = 32 * 3;
+				height = 30 * 3;
+			}
+
+			public String parse(String meta, Node[] outputNodes) {
+				String data = "extends " + meta;
+				if (outputNodes[0] != null) {
+					data += outputNodes[0].parse() + ' ';
+				}
+				return data;
+			}
+		},
+
+		new NodeType() {
+			{
+				name = "implements";
+				outputNum = 1;
+				isTextEditor = false;
+				syntaxColor = Color.CYAN;
+				width = 32 * 3;
+				height = 30 * 6;
+			}
+
+			public String parse(String meta, Node[] outputNodes) {
+				String data = "implements " + meta;
+				if (outputNodes[0] != null) {
+					data += outputNodes[0].parse() + ' ';
+				}
+				return data;
+			}
+		},
+
 		new NodeType() {
 			{
 				name = "protected";
@@ -238,7 +292,7 @@ public class LanguageJava implements Serializable, Editor.Language {
 				isTextEditor = true;
 				syntaxColor = Color.MAGENTA;
 				width = 128;
-				height = 128;
+				height = 30 * 2;
 			}
 
 			public String parse(String meta, Node[] outputNodes) {
