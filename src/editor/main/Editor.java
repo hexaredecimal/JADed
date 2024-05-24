@@ -235,7 +235,7 @@ Welcome to JADed Code editor\n press H for help infomation
 				if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
 					ErrorMenu m = errorMenu;
 					errorMenu = null;
-					nodeToDrag = m.get();
+					// nodeToDrag = m.get();
 				} else {
 					errorMenu.ketTyped(keyEvent.getKeyChar());
 				}
