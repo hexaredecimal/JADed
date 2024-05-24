@@ -25,6 +25,7 @@ public class Editor implements Serializable, MouseListener, MouseMotionListener,
 	public Node deletedNode = null;
 
 	public Node infoNode;
+	public Node runner;
 	public static final int HEADER_SIZE = 30,
 					OVAL_SIZE = 4,
 					RESCALE_SPEED = 12;
@@ -48,7 +49,10 @@ public class Editor implements Serializable, MouseListener, MouseMotionListener,
 			type.isTextEditor = false;
 			type.name = "Welcome, Info";
 			infoNode = new Node(64, 64, 512, 32 * 3, type);
-			infoNode.meta = " Welcome to JADed Code editor\n press H for help infomation";
+			infoNode.meta = 
+""" 
+Welcome to JADed Code editor\n press H for help infomation
+""";
 			topNodes.add(infoNode);
 			lastNodeToDrag = infoNode;
 		} else {
@@ -266,10 +270,28 @@ public class Editor implements Serializable, MouseListener, MouseMotionListener,
 						break;
 					case KeyEvent.VK_Z:
 						if (deletedNode != null) {
+							lastNodeToDrag = deletedNode;
 							deletedNode.moveToTop(this);
 							deletedNode = null;
 						}
 						break;
+					case KeyEvent.VK_R:
+					case KeyEvent.VK_F5: {
+						if (runner == null) {
+							NodeType type = language.defaultNode();
+							runner = new Node(64 * 2, 64 * 3, 512, 32 * 3, type);
+							runner.bound = new Rectangle(512, 150);
+						}
+						runner.type.name = "Program runner";
+						runner.type.syntaxColor = Color.ORANGE;
+
+						String code = Editorr.compile(topNodes);
+						Editorr.runProgram(code);
+						if (!topNodes.contains(runner)) {
+							topNodes.add(runner);
+						}
+					}
+					break;
 					case KeyEvent.VK_D:
 						if (lastNodeToDrag == this.infoNode) {
 							String name = this.infoNode.type.name;
@@ -294,7 +316,10 @@ public class Editor implements Serializable, MouseListener, MouseMotionListener,
 						infoNode.bound = new Rectangle(512, 150);
 						infoNode.type.name = "About info";
 						infoNode.type.syntaxColor = Color.ORANGE;
-						infoNode.meta = " JADed Ide | A Vusiual editor\n" + " For SMLL and JAVA \n-----------\nCreated by Gama Sibusiso";
+						infoNode.meta
+										= """
+	Graphene Ide | A Vusiual editor\n For SMLL and JAVA \n-----------\nCreated by Gama Sibusiso
+""";
 						lastNodeToDrag = infoNode;
 						if (!topNodes.contains(infoNode)) {
 							topNodes.add(infoNode);
@@ -307,19 +332,24 @@ public class Editor implements Serializable, MouseListener, MouseMotionListener,
 						}
 						infoNode.type.name = "Help info";
 						infoNode.type.syntaxColor = Color.GREEN;
-						infoNode.meta = " Graphene Ide | A Vusiual editor\n" + " For SMLL and JAVA \n-----------\nCreated by Gama Sibusiso";
 						infoNode.bound = new Rectangle(512, 300);
-						infoNode.meta = " Click on a node to slect or drag it.\n"
-										+ "If a node is selected type to edit its data.\n"
-										+ "To deselect a node, press escape, or click \noutside of it.\n"
-										+ "When a node is deselected, you may use these \nkeyboard commands:\n"
-										+ "  A - Add a node\n"
-										+ "  W - Save your work\n"
-										+ "  ESCAPE - Delete previously selected node\n"
-										+ "  Z - Undelete last deleted node\n"
-										+ "  Arrow Keys - Resize previously selected node\n"
-										+ "  H - Show help information \n"
-										+ "  I - Show about information \n";
+						infoNode.meta
+										= """
+	If a node is selected type to edit its data.
+	To deselect a node, press escape, or click 
+	outside of it.
+	When a node is deselected, you may use these 
+	keyboard commands:
+		A - Add a node
+		W - Save your work
+		D - Delete previously selected node
+		Z - Undelete last deleted node
+		Arrow Keys - Resize previously selected node
+		H - Show help information 
+		I - Show about information
+		W - Show welcome message 
+""";
+
 						topNodes.add(infoNode);
 						break;
 					case KeyEvent.VK_RIGHT:
