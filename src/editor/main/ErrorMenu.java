@@ -3,9 +3,6 @@ package editor.main;
 import java.awt.*;
 import java.io.Serializable;
 
-/**
- * Created by brandon on 8/3/16.
- */
 public class ErrorMenu implements Serializable {
 
     public String number = "";
